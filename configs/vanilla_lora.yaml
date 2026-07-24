@@ -1,0 +1,50 @@
+# Vanilla SFT — LoRA (the paper's §4 headline setting). IntentBench = 70.60.
+# Plain-answer LoRA on HumanOmniV2's training data with reasoning traces stripped.
+# Trains exactly 1 epoch (report epoch 1; further training degrades).
+
+# Base model: Hugging Face id by default (auto-downloaded). For offline / locally
+# cached weights, override with `--model /path/to/Qwen2.5-Omni-7B` or edit this line.
+model: Qwen/Qwen2.5-Omni-7B
+model_type: qwen2_5_omni
+torch_dtype: bfloat16
+
+# Data
+dataset:
+  - data/matched_alldata.jsonl
+max_length: 32768
+
+# Output
+output_dir: output/vanilla_lora
+save_strategy: epoch
+save_total_limit: 3
+logging_steps: 10
+
+# LoRA
+tuner_type: lora
+lora_rank: 16
+lora_alpha: 32
+target_modules: all-linear
+freeze_vit: true
+
+# Plugin (LR-scheduler fix for ms-swift resume)
+external_plugins:
+  - configs/fix_lr_plugin.py
+callbacks:
+  - fix_lr
+
+# Training hyperparameters
+num_train_epochs: 1
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
+learning_rate: 1.0e-4
+warmup_ratio: 0.05
+lr_scheduler_type: cosine
+weight_decay: 0.01
+gradient_checkpointing: true
+
+# Multi-GPU
+deepspeed: zero2
+
+# Misc
+dataloader_num_workers: 2
+report_to: none

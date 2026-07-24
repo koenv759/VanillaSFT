@@ -1,0 +1,42 @@
+# Vanilla SFT — full fine-tuning (§4 full-FT variant). IntentBench = 70.46.
+# Plain-answer full-FT on HumanOmniV2's training data with reasoning traces stripped.
+# Trains 2 epochs (the full-FT variant reports epoch 2).
+
+# Base model: Hugging Face id by default (auto-downloaded). For offline / locally
+# cached weights, override with `--model /path/to/Qwen2.5-Omni-7B` or edit this line.
+model: Qwen/Qwen2.5-Omni-7B
+model_type: qwen2_5_omni
+torch_dtype: bfloat16
+
+# Data
+dataset:
+  - data/matched_alldata.jsonl
+max_length: 32768
+
+# Output
+output_dir: output/vanilla_fullft
+save_strategy: epoch
+save_total_limit: 3
+save_only_model: true
+logging_steps: 10
+
+# Full fine-tuning
+train_type: full
+freeze_vit: true
+
+# Training hyperparameters
+num_train_epochs: 2
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
+learning_rate: 2e-6
+warmup_ratio: 0.05
+lr_scheduler_type: cosine
+weight_decay: 0.01
+gradient_checkpointing: true
+
+# Multi-GPU (zero3 hangs with qwen2_5_omni — known ms-swift bug #6300; HOv2's own full-FT SFT used zero2)
+deepspeed: zero2_offload
+
+# Misc
+dataloader_num_workers: 4
+report_to: none

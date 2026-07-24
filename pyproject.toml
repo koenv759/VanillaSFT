@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vanilla-sft"
+version = "0.1.0"
+description = "Vanilla SFT: plain-answer supervised fine-tuning of Qwen2.5-Omni for social audio-visual QA (paper §4)."
+readme = "README.md"
+license = "GPL-3.0-or-later"
+requires-python = ">=3.9"
+
+# No core dependencies: the IntentBench-Prime scorer is vendored as the single
+# self-contained eval/score_intentbench.py (+ exclusion lists in eval/ib_data/,
+# stdlib only), so scoring works from a bare clone with nothing to install.
+dependencies = []
+
+[project.optional-dependencies]
+# Everything needed to actually train and run the model evaluations (needs a GPU).
+# Scoring existing result files does NOT need these — the vendored scorer is stdlib only.
+# Versions unpinned; a Qwen2.5-Omni-capable transformers (>=4.52) and ms-swift are required.
+eval = [
+    "torch",
+    "transformers>=4.52",
+    "ms-swift",
+    "accelerate",
+    "deepspeed",
+    "qwen-omni-utils",
+    "peft",
+    "safetensors",
+    "av",
+    "soundfile",
+    "tqdm",
+    "pandas",
+    "openpyxl",
+]
+
+# This repo is a collection of scripts, not an importable library.
+[tool.setuptools]
+py-modules = []

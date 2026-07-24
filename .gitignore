@@ -1,0 +1,23 @@
+# Local environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+
+# Cluster / run outputs
+logs/
+output/
+output_*/
+eval_results/
+
+# Data that is downloaded, not committed (videos placed here for train/eval)
+videos/
+*.tar.gz
+
+# Keep the committed training spec and result fixtures despite the rules above
+!data/matched_alldata.jsonl
+!results/

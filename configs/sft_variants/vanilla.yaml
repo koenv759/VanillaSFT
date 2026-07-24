@@ -1,0 +1,54 @@
+# SFT variant — Vanilla / video channel (§5). LoRA on audio+video+text: single-turn
+# <video>+question -> answer letter, no caption. This is the §4 Vanilla SFT recipe
+# restricted to the SAME Social-IQ 2.0 + EMER data as the question / caption variants,
+# so the three information channels are directly comparable. 3 epochs (the paper reports epoch 3).
+#
+# NB: `save_strategy: epoch` (was `save_steps: 50` in the original run) so the
+# per-epoch checkpoints line up with the text-only variants; the reported model
+# is the checkpoint of epoch 3.
+
+# Base model: HF id by default (auto-downloaded). train_sft_variants.slurm passes
+# --model $BASE_MODEL, which overrides this line for local/offline weights.
+model: Qwen/Qwen2.5-Omni-7B
+model_type: qwen2_5_omni
+torch_dtype: bfloat16
+
+# Data (video paths are repo-relative: videos/social_iq/…, videos/MER24/…)
+dataset:
+  - data/sft_variants/vanilla.jsonl
+max_length: 32768
+
+# Output
+output_dir: output/sft_variants/vanilla
+save_strategy: epoch
+logging_steps: 10
+
+# LoRA
+tuner_type: lora
+lora_rank: 16
+lora_alpha: 32
+target_modules: all-linear
+freeze_vit: true
+
+# Plugin (LR-scheduler fix for ms-swift resume)
+external_plugins:
+  - configs/fix_lr_plugin.py
+callbacks:
+  - fix_lr
+
+# Training hyperparameters
+num_train_epochs: 3
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
+learning_rate: 1.0e-4
+warmup_ratio: 0.05
+lr_scheduler_type: cosine
+weight_decay: 0.01
+gradient_checkpointing: true
+
+# Multi-GPU
+deepspeed: zero2
+
+# Misc
+dataloader_num_workers: 2
+report_to: none

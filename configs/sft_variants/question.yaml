@@ -1,0 +1,51 @@
+# SFT variant — Question-only (§5). Text-only LoRA: the model sees only the
+# question + options (no video, no caption) and emits the answer letter.
+# Isolates the learned answer-distribution prior of the Social-IQ 2.0 + EMER
+# training family. Same LoRA recipe as the caption / vanilla variants;
+# 3 epochs (the paper reports epoch 3).
+
+# Base model: HF id by default (auto-downloaded). train_sft_variants.slurm passes
+# --model $BASE_MODEL, which overrides this line for local/offline weights.
+model: Qwen/Qwen2.5-Omni-7B
+model_type: qwen2_5_omni
+torch_dtype: bfloat16
+
+# Data (text-only — no `videos` key in any example)
+dataset:
+  - data/sft_variants/question.jsonl
+max_length: 32768
+
+# Output
+output_dir: output/sft_variants/question
+save_strategy: epoch
+logging_steps: 10
+
+# LoRA
+tuner_type: lora
+lora_rank: 16
+lora_alpha: 32
+target_modules: all-linear
+freeze_vit: true
+
+# Plugin (LR-scheduler fix for ms-swift resume)
+external_plugins:
+  - configs/fix_lr_plugin.py
+callbacks:
+  - fix_lr
+
+# Training hyperparameters
+num_train_epochs: 3
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
+learning_rate: 1.0e-4
+warmup_ratio: 0.05
+lr_scheduler_type: cosine
+weight_decay: 0.01
+gradient_checkpointing: true
+
+# Multi-GPU
+deepspeed: zero2
+
+# Misc
+dataloader_num_workers: 2
+report_to: none
