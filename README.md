@@ -73,6 +73,24 @@ python eval/score_intentbench.py results/vanilla_lora_e1/ib_vanilla_lora_e1.json
 python eval/compute_accuracy.py --results-dir results/vanilla_lora_e1
 ```
 
+## Pretrained model
+
+The headline **Vanilla SFT — LoRA** model is on the Hugging Face Hub:
+**[`koenv759/VanillaSFT-LoRA`](https://huggingface.co/koenv759/VanillaSFT-LoRA)** — a ~77 MB LoRA
+adapter for `Qwen/Qwen2.5-Omni-7B` (loaded *on top of* the base model, not standalone). Download it
+and evaluate directly, no training needed:
+
+```bash
+hf download koenv759/VanillaSFT-LoRA --local-dir models/VanillaSFT-LoRA
+sbatch --export=ALL,RUN_NAME=vanilla_lora_e1,LORA_PATH=models/VanillaSFT-LoRA eval/eval_intentbench.slurm
+```
+
+The three **§5 information-channel variants** are on the Hub too — each a small LoRA adapter; see
+[§5 below](#5--when-to-use-reasoning-traces-sft-variants) for how to evaluate them per channel:
+[`VanillaSFT-question-only`](https://huggingface.co/koenv759/VanillaSFT-question-only) ·
+[`VanillaSFT-caption-in-prompt`](https://huggingface.co/koenv759/VanillaSFT-caption-in-prompt) ·
+[`VanillaSFT-video-only`](https://huggingface.co/koenv759/VanillaSFT-video-only).
+
 ## Reproduce from scratch (GPU)
 
 Full walkthrough in [`docs/reproduce.md`](docs/reproduce.md). In short:

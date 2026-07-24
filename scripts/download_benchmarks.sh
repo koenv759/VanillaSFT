@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Download the three evaluation benchmarks used in the paper (§4).
-# Requires the Hugging Face CLI:  pip install huggingface_hub
+# Requires a recent Hugging Face CLI:  pip install -U huggingface_hub   (provides the `hf` command)
 #
 # Usage:  bash scripts/download_benchmarks.sh [TARGET_DIR]      (default: ./benchmarks)
 set -euo pipefail
@@ -8,13 +8,13 @@ TARGET=${1:-benchmarks}
 mkdir -p "$TARGET"
 
 echo "==> IntentBench  (PhilipC/IntentBench)"
-huggingface-cli download PhilipC/IntentBench  --repo-type dataset --local-dir "$TARGET/IntentBench"
+hf download PhilipC/IntentBench  --repo-type dataset --local-dir "$TARGET/IntentBench"
 
 echo "==> Daily-Omni   (liarliar/Daily-Omni)"
-huggingface-cli download liarliar/Daily-Omni  --repo-type dataset --local-dir "$TARGET/Daily-Omni"
+hf download liarliar/Daily-Omni  --repo-type dataset --local-dir "$TARGET/Daily-Omni"
 
 echo "==> WorldSense   (honglyhly/WorldSense)"
-huggingface-cli download honglyhly/WorldSense --repo-type dataset --local-dir "$TARGET/WorldSense"
+hf download honglyhly/WorldSense --repo-type dataset --local-dir "$TARGET/WorldSense"
 
 cat <<EOF
 
