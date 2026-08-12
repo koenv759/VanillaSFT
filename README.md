@@ -179,7 +179,7 @@ docs/        reproduce.md (§4), reproduce_sft_variants.md (§5)
 
 ## Citation
 
-> *Reasoning for Social Audio-Visual Question Answering: Where Do We Stand?* (submitted to ECCV HCMIW 2026).
+> *Reasoning for Social Audio-Visual Question Answering: Where Do We Stand?* (ECCV HCMIW 2026).
 
 <!-- TODO: BibTeX once the citation is final. -->
 
