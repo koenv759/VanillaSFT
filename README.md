@@ -1,7 +1,7 @@
 # Vanilla SFT
 
 Code for the **§4** and **§5** experiments of **"Reasoning for Social Audio-Visual Question
-Answering: Where Do We Stand?"** (ECCV 2026 HCMIW workshop submission).
+Answering: Where Do We Stand?"** (ECCV 2026 HCMIW workshop).
 
 **§4 Vanilla SFT** A trivial baseline — *Vanilla* supervised fine-tuning that outputs only the
 answer, no reasoning trace — trained on HumanOmniV2's *own* training data, matches or beats
