@@ -1,7 +1,17 @@
-# Vanilla SFT
+# Main repo for: Reasoning for Social Audio-Visual Question Answering: Where Do We Stand?
 
-Code for the **§4** and **§5** experiments of **"Reasoning for Social Audio-Visual Question
-Answering: Where Do We Stand?"** (ECCV 2026 HCMIW workshop).
+[![arXiv](https://img.shields.io/badge/arXiv-2608.13239-b31b1b.svg)](https://arxiv.org/abs/2608.13239)
+
+Official code for **"Reasoning for Social Audio-Visual Question Answering: Where Do We Stand?"**
+(ECCV 2026 HCMIW). This is the main repository for the paper.
+
+| | |
+| --- | --- |
+| 📄 Paper | [arXiv:2608.13239](https://arxiv.org/abs/2608.13239) |
+| 📊 Benchmark | [IntentBench-Prime](https://github.com/koenv759/IntentBench-Prime) |
+| 🤗 Model (§4) | [VanillaSFT-LoRA](https://huggingface.co/koenv759/VanillaSFT-LoRA)
+
+This repo contains code for the **§4** and **§5** experiments.
 
 **§4 Vanilla SFT** A trivial baseline — *Vanilla* supervised fine-tuning that outputs only the
 answer, no reasoning trace — trained on HumanOmniV2's *own* training data, matches or beats
